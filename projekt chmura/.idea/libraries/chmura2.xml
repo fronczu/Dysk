@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="chmura2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+      <root url="jar://$PROJECT_DIR$/../../../upload/mysql-connector-java-8.0.27/mysql-connector-java-8.0.27/mysql-connector-java-8.0.27.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/main/java" />
+    </SOURCES>
+  </library>
+</component>
