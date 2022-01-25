@@ -24,10 +24,15 @@ public class HelloServlet extends HttpServlet {
         response.getWriter().print("The file uploaded sucessfully.");
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        System.out.println("Ładuje strone");
-        request.getRequestDispatcher("webSite.jsp").forward(request, response);
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        session = request.getSession();
+        response.setContentType("text/html");
+        User user = (User) session.getAttribute("User");
+        // Hello
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>" +user.getName()+ "</h1>");
+        out.println("</body></html>");
     }
 
     public void destroy() {
