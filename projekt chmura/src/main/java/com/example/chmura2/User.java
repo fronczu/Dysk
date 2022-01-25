@@ -10,7 +10,7 @@ public class User {
     }
 
     public String getPath(){
-        String path = "I:\\upload\\" +Path +"\\";
+        String path = "I:\\upload\\" +Path +"\\";  
         return path;
     }
 

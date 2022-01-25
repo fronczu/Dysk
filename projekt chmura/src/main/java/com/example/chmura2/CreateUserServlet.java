@@ -28,6 +28,18 @@ public class CreateUserServlet extends HttpServlet {
 
     }
 
+    protected  boolean SearchForExistingUser(String name,Connection con) throws SQLException {
+        Statement stmt = con.createStatement();
+        PreparedStatement statement =con.prepareStatement("select * from user where Name =?");
+        statement.setString(1,name);
+        ResultSet set = statement.executeQuery();
+        if (set.next()){
+
+            return false;
+        }
+        else return true;
+
+    }
 
     protected Statement CreateUser(String name, String password, Connection con ) throws SQLException {
         Statement stmt=con.createStatement();
@@ -51,10 +63,18 @@ public class CreateUserServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");                 //Na niektórych komputerach działa bez tej linijki, możliwe że to kwestia kongiuracji
             Connection con= DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/dysk","root","");
-            CreateUser(name,password,con);
-            con.close();
-            CreateDirectory(path);
-            response.getWriter().print("User succesfully created.");
+            if (SearchForExistingUser(name,con)){
+
+                CreateUser(name,password,con);
+                con.close();
+                CreateDirectory(path);
+                response.getWriter().print("User succesfully created.");
+            }
+            else {
+                response.getWriter().print("User name already taken!");
+            }
+
+
         }
         catch(Exception e){
             response.getWriter().print("There was a error :" + e.getMessage());

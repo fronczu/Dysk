@@ -31,7 +31,22 @@ public class UploadServlet extends HttpServlet {
         request.getRequestDispatcher("Upload.jsp").forward(request, response);
 
     }
+    protected boolean IsFull(Connection con, long fileSize) throws SQLException {
 
+        int id = (int)session.getAttribute("Id");
+        Statement stmt = con.createStatement();
+        PreparedStatement statement =con.prepareStatement("select SUM(FileSize) AS 'Suma' from file where UserId =?");
+        statement.setInt(1,id);
+        ResultSet set = statement.executeQuery();
+        if (set.next()){
+           String s = set.getString("Suma");
+           if (s == null) return false;
+           System.out.println("Rozmiar to :" + Integer.parseInt(s)/1024);
+           long currentSize = Long.parseLong(s);
+           return (currentSize + fileSize) > UserDiscSize;
+        }
+        return false;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,12 +59,15 @@ public class UploadServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/dysk", "root", "");
-
+            if(!IsFull(con,size)){
              CreateFile(fileName,con, size);
              for (Part part : request.getParts()) {
                  part.write(user.getPath() + fileName);
              }
              con.close();
+             }
+            else response.getWriter().print("Disc is full!.");
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

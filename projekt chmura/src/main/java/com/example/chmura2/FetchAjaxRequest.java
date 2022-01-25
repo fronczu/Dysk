@@ -20,6 +20,7 @@ public class FetchAjaxRequest extends HttpServlet {
 
 
    protected String createContainer(String name, int i){
+
        String container =
                " <div class=\"big\">\n" +
                        "<form method=\"POST\"  action=\"DownloadServlet\" \n>"+

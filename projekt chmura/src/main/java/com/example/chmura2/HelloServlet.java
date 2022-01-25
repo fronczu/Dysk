@@ -4,7 +4,6 @@ import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-//Obecnie nieużywana, zostawiona w celach testowych
 @WebServlet(name = "helloServlet", value = "/helloServlet")
 public class HelloServlet extends HttpServlet {
     private String message;
